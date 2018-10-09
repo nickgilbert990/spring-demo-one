@@ -7,9 +7,27 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id = "myCoach"
-          class = "springdemo.BaseballCoach">
+    <!-- Load the properties file sport.properties -->
+    <context:property-placeholder location = "classpath:sport.properties" />
+
+    <bean id = "myFortuneService"
+          class = "springdemo.HappyFortuneService">
+           <constructor-arg type = "java.lang.String" value = "${springdemo.f1}"/> 
+           <constructor-arg type = "java.lang.String" value = "${springdemo.f2}"/> 
+           <constructor-arg type = "java.lang.String" value = "${springdemo.f3}"/> 
     </bean>
+
+    <bean id = "myCoach"
+          class = "springdemo.TrackCoach">
+          <constructor-arg ref= "myFortuneService" />         
+    </bean>
+   
+    <bean id = "myCricketCoach"
+          class = "springdemo.CricketCoach">
+          <property name = "fortuneService" ref= "myFortuneService" />  
+          <property name="email" value = "${springdemo.email}"/>  
+          <property name="team" value = "${springdemo.team}"/>  
+    </bean>     
     
 </beans>
 
